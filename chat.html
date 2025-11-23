@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DailyOps – AI Operations Agent</title>
+
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- This is the container IBM will replace -->
+    <div id="root" style="width:100vw; height:100vh;"></div>
+
+    <!-- IBM Orchestrate FULL UI CONFIG -->
+    <script>
+      window.wxOConfiguration = {
+        orchestrationID: "de68893e597b4ff0bd9f5f48f8f20d02_558352ec-7a50-495f-aebe-3c8c1e2208ba",
+        hostURL: "https://ca-tor.watson-orchestrate.cloud.ibm.com",
+        rootElementID: "root",
+        deploymentPlatform: "ibmcloud",
+
+        crn: "crn:v1:bluemix:public:watsonx-orchestrate:ca-tor:a/de68893e597b4ff0bd9f5f48f8f20d02:558352ec-7a50-495f-aebe-3c8c1e2208ba::",
+
+        chatOptions: {
+          agentId: "0ce137c7-fe6d-4723-ae01-db0d25f42c9f",
+          agentEnvironmentId: "28c66afb-77ae-4d4f-8850-362a2feb8b44"
+        },
+
+        layout: {
+          form: "fullscreen-overlay",
+          showOrchestrateHeader: true
+        },
+
+        showLauncher: false
+      };
+
+      // Load the IBM embed loader
+      const script = document.createElement("script");
+      script.src = "https://ca-tor.watson-orchestrate.cloud.ibm.com/wxochat/wxoLoader.js?embed=true";
+      script.onload = () => wxoLoader.init();
+      document.head.appendChild(script);
+    </script>
+
+  </body>
+</html>

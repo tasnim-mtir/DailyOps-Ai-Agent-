@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyOps Documentation - AI-Powered Operations Control Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ibm-blue: #0f62fe;
+            --ibm-blue-light: #4589ff;
+            --ibm-blue-dark: #0043ce;
+            --bg-light: #f4f4f4;
+            --bg-lighter: #fafafa;
+            --text-main: #161616;
+            --text-muted: #525252;
+            --border-light: #e0e0e0;
+            --success: #198038;
+            --gradient: linear-gradient(135deg, #0f62fe 0%, #4589ff 100%);
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            font-family: "Inter", system-ui, sans-serif;
+            background: white;
+            color: var(--text-main);
+            scroll-behavior: smooth;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        header {
+            width: 100%;
+            padding: 18px 42px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--ibm-blue);
+        }
+
+        .logo-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--ibm-blue);
+        }
+
+        .btn-primary {
+            padding: 11px 24px;
+            border-radius: 8px;
+            background: var(--ibm-blue);
+            color: white;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 6px 18px rgba(15, 98, 254, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--ibm-blue-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(15, 98, 254, 0.45);
+        }
+
+        /* LAYOUT */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-lighter);
+            border-right: 1px solid var(--border-light);
+            padding: 30px 0;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 30px 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .sidebar-links {
+            list-style: none;
+        }
+
+        .sidebar-link {
+            padding: 12px 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(15, 98, 254, 0.05);
+            color: var(--ibm-blue);
+        }
+
+        .sidebar-link.active {
+            background: rgba(15, 98, 254, 0.08);
+            color: var(--ibm-blue);
+            border-left-color: var(--ibm-blue);
+            font-weight: 600;
+        }
+
+        .sidebar-icon {
+            width: 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .sidebar-link.active .sidebar-icon {
+            color: var(--ibm-blue);
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 30px;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(15, 98, 254, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ibm-blue);
+            font-size: 1.2rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 800px;
+        }
+
+        /* CARDS */
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+            margin-bottom: 30px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--ibm-blue);
+        }
+
+        /* ARCHITECTURE DIAGRAM */
+        .architecture-diagram {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .diagram-container {
+            min-width: 800px;
+            padding: 20px;
+        }
+
+        .diagram-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .diagram-node {
+            background: white;
+            border: 2px solid var(--ibm-blue);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            width: 200px;
+            box-shadow: 0 5px 15px rgba(15, 98, 254, 0.1);
+            position: relative;
+        }
+
+        .diagram-node.central {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            width: 240px;
+        }
+
+        .diagram-node.tool {
+            background: rgba(15, 98, 254, 0.05);
+        }
+
+        .diagram-arrow {
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background: var(--ibm-blue);
+            bottom: -42px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .diagram-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--ibm-blue);
+        }
+
+        .diagram-horizontal-arrow {
+            position: absolute;
+            height: 2px;
+            width: 100px;
+            background: var(--ibm-blue);
+            top: 50%;
+            right: -102px;
+        }
+
+        .diagram-horizontal-arrow::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 8px solid var(--ibm-blue);
+        }
+
+        /* TABLES */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--bg-light);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        tr:hover {
+            background: var(--bg-lighter);
+        }
+
+        .tech-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(15, 98, 254, 0.1);
+            color: var(--ibm-blue);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* CODE BLOCKS */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        /* FEATURES GRID */
+        .features-grid {
+            display: grid;
+            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: rgba(15, 98, 254, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--ibm-blue);
+            font-size: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feature-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 50px 40px 30px;
+            border-top: 1px solid var(--border-light);
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: var(--text-main);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--ibm-blue);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-light);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-content {
+                max-width: calc(100% - 240px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+            }
+            
+            .main-content {
+                max-width: 100%;
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="DailyOps Logo" class="logo-img" />
+            <span>DailyOps</span>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="chat.html" class="nav-link">Chat</a>
+            <a href="#architecture" class="nav-link">Architecture</a>
+        </div>
+        
+        <button class="btn-primary" onclick="location.href='chat.html'">
+            <i class="fas fa-rocket"></i> Launch DailyOps
+        </button>
+    </header>
+
+    <!-- LAYOUT -->
+    <div class="container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Documentation</div>
+                <ul class="sidebar-links">
+                    <li><a href="#overview" class="sidebar-link active"><span class="sidebar-icon"><i class="fas fa-home"></i></span> Overview</a></li>
+                    <li><a href="#problem" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-exclamation-circle"></i></span> Problem Statement</a></li>
+                    <li><a href="#solution" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-lightbulb"></i></span> Solution</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">Technical</div>
+                <ul class="sidebar-links">
+                    <li><a href="#architecture" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-sitemap"></i></span> Architecture</a></li>
+                    <li><a href="#tech-stack" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-layer-group"></i></span> Technology Stack</a></li>
+                    <li><a href="#ai-behavior" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-robot"></i></span> AI Behavior Logic</a></li>
+                    <li><a href="#frontend" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-desktop"></i></span> Frontend</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">Implementation</div>
+                <ul class="sidebar-links">
+                    <li><a href="#deployment" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-cloud-upload-alt"></i></span> Deployment</a></li>
+                    <li><a href="#testing" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-vial"></i></span> Testing</a></li>
+                    <li><a href="#demo" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-play-circle"></i></span> Demo Script</a></li>
+                    <li><a href="#roadmap" class="sidebar-link"><span class="sidebar-icon"><i class="fas fa-map"></i></span> Roadmap</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- OVERVIEW SECTION -->
+            <section id="overview" class="section">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <span class="section-icon"><i class="fas fa-home"></i></span>
+                        DailyOps Documentation
+                    </h1>
+                    <p class="section-subtitle">
+                        Complete technical and user documentation for the AI-Powered Daily Operations Control Agent
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Overview</h2>
+                    <p><strong>DailyOps</strong> is an AI-powered <em>Daily Operations Control Agent</em> designed to simplify and optimize a user's workday. It retrieves emails, meetings, and tasks via IBM watsonx Orchestrate tools, analyzes priorities, and generates:</p>
+                    
+                    <ul style="margin: 20px 0 20px 30px;">
+                        <li>A <strong>daily briefing</strong></li>
+                        <li>High-priority actions</li>
+                        <li>Alerts & blockers</li>
+                        <li>An <strong>optimized daily schedule</strong></li>
+                        <li>Recommendations for productivity</li>
+                    </ul>
+                    
+                    <p>DailyOps provides a clean web interface with full IBM Orchestrate embedded chat functionality.</p>
+                </div>
+            </section>
+
+            <!-- PROBLEM STATEMENT SECTION -->
+            <section id="problem" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-exclamation-circle"></i></span>
+                        Problem Statement
+                    </h2>
+                </div>
+                
+                <div class="card">
+                    <p>Professionals waste significant time every morning checking:</p>
+                    
+                    <div class="features-grid" style="margin: 20px 0;">
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="feature-title">Emails</div>
+                            <div class="feature-desc">Scattered across multiple accounts and priorities</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <div class="feature-title">Calendar Events</div>
+                            <div class="feature-desc">Meetings, appointments, and conflicting schedules</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-tasks"></i></div>
+                            <div class="feature-title">Tasks Across Tools</div>
+                            <div class="feature-desc">Scattered across different project management systems</div>
+                        </div>
+                    </div>
+                    
+                    <p>This leads to:</p>
+                    <ul style="margin: 20px 0 20px 30px;">
+                        <li>❌ High cognitive load</li>
+                        <li>❌ Scattered information</li>
+                        <li>❌ Poor morning planning</li>
+                        <li>❌ Missed deadlines</li>
+                        <li>❌ Inefficient schedules</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SOLUTION SECTION -->
+            <section id="solution" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-lightbulb"></i></span>
+                        Solution: DailyOps
+                    </h2>
+                </div>
+                
+                <div class="card">
+                    <p>DailyOps acts as an <strong>AI personal operations manager</strong> that:</p>
+                    
+                    <div class="features-grid" style="margin: 20px 0;">
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-inbox"></i></div>
+                            <div class="feature-title">Pulls Your Emails</div>
+                            <div class="feature-desc">Automatically retrieves and analyzes important communications</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
+                            <div class="feature-title">Scans Your Meetings</div>
+                            <div class="feature-desc">Identifies key appointments and preparation requirements</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-list-check"></i></div>
+                            <div class="feature-title">Retrieves Tasks</div>
+                            <div class="feature-desc">Gathers pending items from various task management systems</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-arrow-up-wide-short"></i></div>
+                            <div class="feature-title">Prioritizes Everything</div>
+                            <div class="feature-desc">Uses AI to determine what's truly important</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                            <div class="feature-title">Optimizes Your Timeline</div>
+                            <div class="feature-desc">Creates a realistic schedule with buffers and focus time</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                            <div class="feature-title">Highlights Urgent Issues</div>
+                            <div class="feature-desc">Flags critical items that need immediate attention</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ARCHITECTURE SECTION -->
+            <section id="architecture" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-sitemap"></i></span>
+                        System Architecture
+                    </h2>
+                </div>
+                
+                <div class="architecture-diagram">
+                    <div class="diagram-container">
+                        <!-- Top Row -->
+                        <div class="diagram-row">
+                            <div class="diagram-node">
+                                Web Frontend (UI)<br>
+                                index.html / chat.html
+                                <div class="diagram-arrow"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Second Row -->
+                        <div class="diagram-row">
+                            <div class="diagram-node">
+                                IBM Orchestrate Embed<br>
+                                (wxoLoader.js client)
+                                <div class="diagram-arrow"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Third Row -->
+                        <div class="diagram-row">
+                            <div class="diagram-node central">
+                                DailyOps Orchestrate Agent<br>
+                                - LLM (llama-3-90b)<br>
+                                - Behavior rules
+                                <div class="diagram-arrow"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fourth Row -->
+                        <div class="diagram-row" style="justify-content: space-between;">
+                            <div class="diagram-node tool" style="position: relative;">
+                                GetEmails<br>(email tool)
+                                <div class="diagram-arrow"></div>
+                                <div class="diagram-horizontal-arrow" style="left: -102px; transform: rotate(180deg);"></div>
+                            </div>
+                            
+                            <div class="diagram-node tool" style="position: relative;">
+                                GetMeetings<br>(calendar tool)
+                                <div class="diagram-arrow"></div>
+                                <div class="diagram-horizontal-arrow" style="left: -102px; transform: rotate(180deg);"></div>
+                            </div>
+                            
+                            <div class="diagram-node tool" style="position: relative;">
+                                GetTasks<br>(task tool)
+                                <div class="diagram-arrow"></div>
+                                <div class="diagram-horizontal-arrow" style="left: -102px; transform: rotate(180deg);"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fifth Row -->
+                        <div class="diagram-row" style="justify-content: space-between;">
+                            <div class="diagram-node">
+                                Data Filtering
+                                <div class="diagram-arrow"></div>
+                            </div>
+                            
+                            <div class="diagram-node">
+                                Priority Engine
+                                <div class="diagram-arrow"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sixth Row -->
+                        <div class="diagram-row">
+                            <div class="diagram-node">
+                                Briefing + Schedule
+                                <div class="diagram-arrow"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Seventh Row -->
+                        <div class="diagram-row">
+                            <div class="diagram-node">
+                                Returned to Web UI
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TECHNOLOGY STACK SECTION -->
+            <section id="tech-stack" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-layer-group"></i></span>
+                        Technology Stack
+                    </h2>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Layer</th>
+                                <th>Technology</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Frontend</td>
+                                <td><span class="tech-badge">HTML, CSS</span></td>
+                                <td>Landing page + Chat route</td>
+                            </tr>
+                            <tr>
+                                <td>Backend</td>
+                                <td><span class="tech-badge">IBM watsonx Orchestrate</span></td>
+                                <td>Brain of DailyOps</td>
+                            </tr>
+                            <tr>
+                                <td>LLM</td>
+                                <td><span class="tech-badge">LLaMA-3-90B-Vision</span></td>
+                                <td>Agent intelligence</td>
+                            </tr>
+                            <tr>
+                                <td>Tools</td>
+                                <td><span class="tech-badge">GetEmails, GetMeetings, GetTasks</span></td>
+                                <td>Data retrieval</td>
+                            </tr>
+                            <tr>
+                                <td>Hosting</td>
+                                <td><span class="tech-badge">GitHub Pages </span></td>
+                                <td>Static hosting</td>
+                            </tr>
+                            <tr>
+                                <td>Voice</td>
+                                <td><span class="tech-badge">IBM Speech-to-Text + Text-to-Speech</span></td>
+                                <td>Optional voice interface in ibm orchestrate watsonx chat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- AI BEHAVIOR SECTION -->
+            <section id="ai-behavior" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-robot"></i></span>
+                        AI Agent Behavior Logic
+                    </h2>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Workflow Rules</h3>
+                    <p>When user asks:</p>
+                    
+                    <h4 style="margin: 20px 0 10px; color: var(--ibm-blue);">Start-of-day queries:</h4>
+                    <ul style="margin-bottom: 20px;">
+                        <li>"Start my day"</li>
+                        <li>"Daily briefing"</li>
+                        <li>"What do I have today"</li>
+                    </ul>
+                    
+                    <p><strong>Call tools in order:</strong></p>
+                    <ol style="margin-bottom: 30px;">
+                        <li>GetEmails</li>
+                        <li>GetMeetings</li>
+                        <li>GetTasks</li>
+                    </ol>
+                    
+                    <h4 style="margin: 20px 0 10px; color: var(--ibm-blue);">Schedule optimization:</h4>
+                    <ul style="margin-bottom: 20px;">
+                        <li>"Optimize my schedule"</li>
+                        <li>"Plan my day"</li>
+                        <li>"Time plan"</li>
+                    </ul>
+                    
+                    <p><strong>Call tools:</strong></p>
+                    <ol style="margin-bottom: 30px;">
+                        <li>GetMeetings</li>
+                        <li>GetTasks</li>
+                        <li>GetEmails</li>
+                    </ol>
+                    
+                    <h4 style="margin: 20px 0 10px; color: var(--ibm-blue);">Specific queries:</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User asks</th>
+                                    <th>Tool</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>"Show me my emails"</td>
+                                    <td>GetEmails</td>
+                                </tr>
+                                <tr>
+                                    <td>"Meetings today?"</td>
+                                    <td>GetMeetings</td>
+                                </tr>
+                                <tr>
+                                    <td>"What tasks?"</td>
+                                    <td>GetTasks</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Filtering Rules</h3>
+                    
+                    <h4 style="margin: 20px 0 10px; color: var(--ibm-blue);">Emails</h4>
+                    <ul style="margin-bottom: 20px;">
+                        <li>Only today's emails</li>
+                        <li>If urgent keywords → include</li>
+                        <li>Max 7 emails</li>
+                        <li>Priority: <em>Critical / High / Normal</em></li>
+                    </ul>
+                    
+                    <h4 style="margin: 20px 0 10px; color: var(--ibm-blue);">Meetings</h4>
+                    <ul style="margin-bottom: 20px;">
+                        <li>Only today's meetings</li>
+                        <li>Sorted chronologically</li>
+                        <li>Include: time, participants, importance, prep notes</li>
+                    </ul>
+                    
+                    <h4 style="margin: 20px 0 10px; color: var(--ibm-blue);">Tasks</h4>
+                    <ul style="margin-bottom: 20px;">
+                        <li>Due today</li>
+                        <li>Overdue</li>
+                        <li>Critical/high priority</li>
+                        <li>Max 10 tasks</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Schedule Engine</h3>
+                    <p>DailyOps builds:</p>
+                    <ul style="margin: 20px 0 20px 30px;">
+                        <li>Time blocks</li>
+                        <li>Deep-work mornings</li>
+                        <li>Buffers around meetings</li>
+                        <li>Conflict detection</li>
+                        <li>Load analysis</li>
+                        <li>Recommendations to postpone</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- FRONTEND SECTION -->
+            <section id="frontend" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-desktop"></i></span>
+                        Frontend Documentation
+                    </h2>
+                </div>
+                
+                <div class="card">
+                    <p>Your project uses <strong>two pages</strong>:</p>
+                    
+                    <h3 style="margin: 25px 0 15px; color: var(--ibm-blue);">index.html (Landing Page)</h3>
+                    <p>Features:</p>
+                    <ul style="margin-bottom: 30px;">
+                        <li>Corporate IBM-style layout</li>
+                        <li>Product messaging</li>
+                        <li>Centered hero section</li>
+                        <li>DailyOps logo</li>
+                        <li>CTA → leads to chat.html</li>
+                        <li>Features section</li>
+                        <li>Responsive layout</li>
+                    </ul>
+                    
+                    <h3 style="margin: 25px 0 15px; color: var(--ibm-blue);">chat.html</h3>
+                    <p>The standalone chat interface:</p>
+                    <ul style="margin-bottom: 20px;">
+                        <li>Fullscreen</li>
+                        <li>Uses IBM Orchestrate widget</li>
+                        <li>Contains only the chat</li>
+                        <li>Header bar for return to homepage</li>
+                    </ul>
+                    
+                    <div class="code-block">
+                        <span class="code-comment">// IBM Orchestrate widget integration</span><br>
+                        &lt;script <br>
+                        &nbsp;&nbsp;src="https://web-chat.watsonx.ibm.com/wxochat/wxoLoader.js?embed=true"<br>
+                        &nbsp;&nbsp;id="wxoChatScript"<br>
+                        &gt;&lt;/script&gt;
+                    </div>
+                </div>
+            </section>
+
+            <!-- DEPLOYMENT SECTION -->
+            <section id="deployment" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                        Deployment Guide
+                    </h2>
+                </div>
+                
+                <div class="card">
+                    <p>DailyOps is a fully static website. You can deploy it on:</p>
+                    
+                    <div class="features-grid" style="margin: 20px 0;">
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fab fa-github"></i></div>
+                            <div class="feature-title">GitHub Pages</div>
+                            <div class="feature-desc">Free hosting for public repositories</div>
+                        </div>
+                        
+             
+                    </div>
+                    
+                    <p><strong>Files required:</strong></p>
+                    <div class="code-block">
+                        index.html<br>
+                        chat.html<br>
+                        logo.png
+                    </div>
+                    
+                    <p style="margin-top: 20px;">That's it. No server-side code required.</p>
+                </div>
+            </section>
+
+            <!-- TESTING SECTION -->
+            <section id="testing" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-vial"></i></span>
+                        Testing Guide
+                    </h2>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Functional Tests</h3>
+                    
+                    <ul style="margin: 20px 0 20px 30px;">
+                        <li>Homepage loads</li>
+                        <li>Logo and text center properly</li>
+                        <li>"Launch DailyOps" → opens chat.html</li>
+                        <li>Chat fully loads Orchestrate agent</li>
+                        <li>Agent responds correctly to:
+                            <ul style="margin-top: 10px;">
+                                <li>"Start my day"</li>
+                                <li>"Optimize my schedule"</li>
+                                <li>"Show me my tasks"</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+      
+
+            <!-- ROADMAP SECTION -->
+            <section id="roadmap" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-map"></i></span>
+                        Roadmap
+                    </h2>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Future Enhancements</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Voice assistant on website</td>
+                                    <td><span class="tech-badge">In Ibm Orchestrate WatsonX chat </span></td>
+                                </tr>
+                                <tr>
+                                    <td>Google Calendar integration</td>
+                                    <td><span class="tech-badge">Future</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Gmail API integration</td>
+                                    <td><span class="tech-badge">Future</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Analytics dashboard</td>
+                                    <td><span class="tech-badge">Future</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Notification system</td>
+                                    <td><span class="tech-badge">Future</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Personalized productivity model</td>
+                                    <td><span class="tech-badge">Future</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+        <footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>DailyOps</h3>
+          <p>AI-powered operations control for the modern enterprise.</p>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Product</h3>
+          <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="chat.html">Chat</a></li>
+                    <li><a href="#architecture">Architecture</a></li>
+          </ul>
+        </div>
+        
+      <div class="footer-column">
+  <h3>Resources</h3>
+  <ul class="footer-links">
+    <li><a href="documentation.html" class="nav-link">Documentation</a></li>
+  </ul>
+</div>
+
+        
+ 
+      </div>
+      
+      <div class="footer-bottom">
+        © 2025 DailyOps — Built with IBM watsonx Orchestrate · All Rights Reserved
+      </div>
+    </footer>
+
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    // Update active state in sidebar
+                    document.querySelectorAll('.sidebar-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Scroll to target
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Update active sidebar link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.section');
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if(window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

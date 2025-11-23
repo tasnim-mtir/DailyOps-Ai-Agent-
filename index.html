@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DailyOps – AI-Powered Operations Control Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --ibm-blue: #0f62fe;
+        --ibm-blue-light: #4589ff;
+        --ibm-blue-dark: #0043ce;
+        --bg-light: #f4f4f4;
+        --bg-lighter: #fafafa;
+        --text-main: #161616;
+        --text-muted: #525252;
+        --border-light: #e0e0e0;
+        --success: #198038;
+        --gradient: linear-gradient(135deg, #0f62fe 0%, #4589ff 100%);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body, html {
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", system-ui, sans-serif;
+        background: white;
+        color: var(--text-main);
+        scroll-behavior: smooth;
+      }
+
+      /* HEADER */
+      header {
+        width: 100%;
+        padding: 18px 42px;
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #ffffff;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--ibm-blue);
+      }
+
+      .logo-img {
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+        display: block;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+      }
+
+      .nav-link {
+        text-decoration: none;
+        color: var(--text-main);
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .nav-link:hover {
+        color: var(--ibm-blue);
+      }
+
+      .btn-primary {
+        padding: 11px 24px;
+        border-radius: 8px;
+        background: var(--ibm-blue);
+        color: white;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: 0 6px 18px rgba(15, 98, 254, 0.35);
+        transition: all 0.2s ease;
+      }
+
+      .btn-primary:hover {
+        background: var(--ibm-blue-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(15, 98, 254, 0.45);
+      }
+
+      /* HERO SECTION */
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 80px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 60px;
+        flex-wrap: wrap;
+      }
+
+      .hero-left {
+        flex: 1.2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .hero-right {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .hero-visual {
+        width: 100%;
+        max-width: 500px;
+        height: 400px;
+        background: var(--gradient);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(15, 98, 254, 0.2);
+      }
+
+      .ai-visual {
+        width: 80%;
+        height: 80%;
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      }
+
+      .ai-visual-line {
+        height: 12px;
+        border-radius: 6px;
+        background: var(--bg-light);
+        animation: pulse 2s infinite;
+      }
+
+      .ai-visual-line:nth-child(1) {
+        width: 80%;
+      }
+
+      .ai-visual-line:nth-child(2) {
+        width: 60%;
+      }
+
+      .ai-visual-line:nth-child(3) {
+        width: 90%;
+      }
+
+      .ai-visual-line:nth-child(4) {
+        width: 70%;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--ibm-blue-light);
+      }
+
+      @keyframes pulse {
+        0% { opacity: 0.7; }
+        50% { opacity: 1; }
+        100% { opacity: 0.7; }
+      }
+
+      .hero-title {
+        font-size: clamp(2.5rem, 4vw, 3.5rem);
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 20px;
+      }
+
+      .hero-title span {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-subtitle {
+        margin-top: 14px;
+        font-size: 1.15rem;
+        color: var(--text-muted);
+        max-width: 500px;
+        line-height: 1.6;
+      }
+
+      .hero-actions {
+        margin-top: 32px;
+        display: flex;
+        gap: 16px;
+      }
+
+      .btn-secondary {
+        padding: 11px 24px;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--ibm-blue);
+        font-size: 1rem;
+        border: 1px solid var(--ibm-blue);
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(15, 98, 254, 0.05);
+      }
+
+      /* FEATURES SECTION */
+      .info-section {
+        background: var(--bg-lighter);
+        padding: 80px 40px;
+      }
+
+      .info-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 60px;
+        font-weight: 700;
+      }
+
+      .info-title span {
+        color: var(--ibm-blue);
+      }
+
+      .features-grid {
+        display: grid;
+        gap: 35px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .feature-card {
+        background: white;
+        border-radius: 14px;
+        padding: 30px;
+        border: 1px solid var(--border-light);
+        box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      }
+
+      .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--gradient);
+      }
+
+      .feature-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        background: rgba(15, 98, 254, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        color: var(--ibm-blue);
+        font-size: 1.5rem;
+      }
+
+      .feature-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .feature-desc {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      /* TECHNOLOGY SECTION */
+      .tech-section {
+        padding: 80px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .tech-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 60px;
+        font-weight: 700;
+      }
+
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+
+      .tech-item {
+        text-align: center;
+        padding: 30px 20px;
+      }
+
+      .tech-icon {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: var(--ibm-blue);
+      }
+
+      .tech-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .tech-desc {
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      /* CTA SECTION */
+      .cta-section {
+        background: var(--gradient);
+        padding: 80px 40px;
+        text-align: center;
+        color: white;
+        border-radius: 20px;
+        margin: 60px 40px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .cta-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+
+      .cta-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        opacity: 0.9;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .cta-button {
+        padding: 14px 32px;
+        border-radius: 8px;
+        background: white;
+        color: var(--ibm-blue);
+        font-size: 1.1rem;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        transition: all 0.2s ease;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+      }
+
+      /* FOOTER */
+      footer {
+        padding: 50px 40px 30px;
+        border-top: 1px solid var(--border-light);
+        margin-top: 60px;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-column h3 {
+        color: var(--text-main);
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+      }
+
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .footer-links li {
+        margin-bottom: 12px;
+      }
+
+      .footer-links a {
+        text-decoration: none;
+        color: var(--text-muted);
+        transition: color 0.2s;
+      }
+
+      .footer-links a:hover {
+        color: var(--ibm-blue);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid var(--border-light);
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        header {
+          padding: 15px 20px;
+        }
+        
+        .nav-links {
+          display: none;
+        }
+        
+        main {
+          padding: 50px 20px;
+          flex-direction: column;
+        }
+        
+        .hero-actions {
+          flex-direction: column;
+        }
+        
+        .info-section, .tech-section {
+          padding: 60px 20px;
+        }
+        
+        .cta-section {
+          margin: 40px 20px;
+          padding: 60px 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <header>
+      <div class="logo">
+        <img src="logo.png" alt="DailyOps Logo" class="logo-img" />
+        <span>DailyOps</span>
+      </div>
+      
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#technology" class="nav-link">Technology</a>
+      </div>
+      
+      <button class="btn-primary" onclick="location.href='chat.html'">
+        🚀 Launch DailyOps
+      </button>
+    </header>
+
+    <!-- HERO SECTION -->
+    <main>
+      <div class="hero-left">
+        <h1 class="hero-title">
+          AI-Powered Operations<br />
+          for the <span>Modern Enterprise</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          DailyOps leverages advanced AI to analyze your workflows, communications, 
+          and priorities—automatically generating optimized daily plans and actionable insights.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="location.href='chat.html'">
+            🚀 Launch DailyOps
+          </button>
+          <button class="btn-secondary" onclick="location.href='#features'">
+            Learn More
+          </button>
+        </div>
+      </div>
+
+      <!-- AI Visualization -->
+      <div class="hero-right">
+        <div class="hero-visual">
+          <div class="ai-visual">
+            <div class="ai-visual-line"></div>
+            <div class="ai-visual-line"></div>
+            <div class="ai-visual-line"></div>
+            <div class="ai-visual-line"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- FEATURES SECTION -->
+    <div class="info-section" id="features">
+      <h2 class="info-title">Why <span>DailyOps</span>?</h2>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-title">Intelligent Briefings</div>
+          <div class="feature-desc">AI-powered summaries of critical communications, tasks, and meetings with contextual understanding.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Adaptive Prioritization</div>
+          <div class="feature-desc">Machine learning algorithms that continuously learn from your decisions to improve task prioritization.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Predictive Scheduling</div>
+          <div class="feature-desc">AI-generated schedules that account for task complexity, energy levels, and potential interruptions.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎤</div>
+          <div class="feature-title">Natural Language Interface</div>
+          <div class="feature-desc">Conversational AI that understands context and intent for seamless voice and text interactions.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <div class="feature-title">Enterprise AI Integration</div>
+          <div class="feature-desc">Seamlessly embed DailyOps AI capabilities into existing enterprise systems and workflows.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <div class="feature-title">Continuous Optimization</div>
+          <div class="feature-desc">AI that learns from your feedback to deliver increasingly personalized and effective daily plans.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECHNOLOGY SECTION -->
+    <div class="tech-section" id="technology">
+      <h2 class="tech-title">Powered by Advanced AI</h2>
+      
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-icon">🧠</div>
+          <div class="tech-name">Natural Language Processing</div>
+          <div class="tech-desc">Advanced algorithms that understand context, sentiment, and intent in your communications.</div>
+        </div>
+        
+        <div class="tech-item">
+          <div class="tech-icon">📚</div>
+          <div class="tech-name">Machine Learning</div>
+          <div class="tech-desc">Models that continuously learn from your preferences and decisions to improve recommendations.</div>
+        </div>
+        
+        <div class="tech-item">
+          <div class="tech-icon">🔍</div>
+          <div class="tech-name">Predictive Analytics</div>
+          <div class="tech-desc">AI that forecasts task durations, identifies potential bottlenecks, and suggests optimizations.</div>
+        </div>
+        
+        <div class="tech-item">
+          <div class="tech-icon">🔄</div>
+          <div class="tech-name">Adaptive Algorithms</div>
+          <div class="tech-desc">Self-improving systems that adjust to your work patterns and changing priorities.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA SECTION -->
+    <div class="cta-section">
+      <h2 class="cta-title">Ready to Transform Your Workday?</h2>
+      <p class="cta-subtitle">Join thousands of professionals who have enhanced their productivity with AI-powered daily operations.</p>
+      <button class="cta-button" onclick="location.href='chat.html'">
+        Start Your AI Transformation
+      </button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>DailyOps</h3>
+          <p>AI-powered operations control for the modern enterprise.</p>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Product</h3>
+          <ul class="footer-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#technology">Technology</a></li>
+          </ul>
+        </div>
+        
+      <div class="footer-column">
+  <h3>Resources</h3>
+  <ul class="footer-links">
+    <li><a href="documentation.html" class="nav-link">Documentation</a></li>
+  </ul>
+</div>
+
+        
+ 
+      </div>
+      
+      <div class="footer-bottom">
+        © 2025 DailyOps — Built with IBM watsonx Orchestrate · All Rights Reserved
+      </div>
+    </footer>
+
+  </body>
+</html>
