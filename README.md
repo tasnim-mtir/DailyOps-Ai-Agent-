@@ -31,7 +31,7 @@ The project includes:
 
 ### 🔵 Live Website (Vercel)
 
-**➡ [https://your-vercel-url/](https://your-vercel-url/)**
+**➡ [daily-ops-ai-agent.vercel.app/](hdaily-ops-ai-agent.vercel.app/)**
 
 ### 🟦 IBM Orchestrate Chat Demo
 
